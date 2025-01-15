@@ -9,11 +9,12 @@ void main() async {
     const ProviderScope(child: MainApp())); //Provider se descarga la dep y se coloca en el main
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appRouter = ref.watch(goRouterProvider);
     // print(Environment.apiUrl);
     return MaterialApp.router(
       routerConfig: appRouter,

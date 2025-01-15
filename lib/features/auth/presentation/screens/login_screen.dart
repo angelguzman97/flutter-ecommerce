@@ -75,9 +75,11 @@ class _LoginForm extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
         children: [
-          const SizedBox( height: 50 ),
+          // const SizedBox( height: 50 ),
+          const Spacer(),
           Text('Login', style: textStyles.titleLarge ),
-          const SizedBox( height: 90 ),
+          const Spacer(),
+          // const SizedBox( height: 90 ),
 
            CustomTextFormField(
             label: 'Correo',
@@ -102,9 +104,9 @@ class _LoginForm extends ConsumerWidget {
             child: CustomFilledButton(
               text: 'Ingresar',
               buttonColor: Colors.black,
-              onPressed: (){
-                ref.read(loginFormProvider.notifier).onFormSubmit();
-              },
+              onPressed: loginForm.isPosting
+              ? null
+              : ref.read(loginFormProvider.notifier).onFormSubmit,
             )
           ),
 
