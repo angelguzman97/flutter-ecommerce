@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:teslo_shop/features/products/domain/domain.dart';
 import 'package:teslo_shop/features/products/presentation/providers/providers.dart';
@@ -25,8 +22,31 @@ class ProductNotifier extends StateNotifier<ProductState> {
       loadProduct();
     }
 
+    Product newEmptyProduct(){
+      return Product(
+        id: 'new', 
+        title: '', 
+        price: 0, 
+        description: '', 
+        slug: '', 
+        stock: 0, 
+        sizes: [], 
+        gender: 'men', 
+        tags: [], 
+        images: [],
+        );
+    }
+
+
     Future<void> loadProduct() async{
       try {
+        if(state.id == 'new'){
+          state = state.copyWith(
+            isLoading: false,
+            product: newEmptyProduct()
+            );
+          return;
+        }
         final product = await productsRepository.getProductsById(state.id);
 
         state = state.copyWith(

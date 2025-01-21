@@ -25,6 +25,32 @@ final ProductsRepository productsRepository;
       loadNextPage();
     }
 
+    Future<bool> createOrUpdateProduct(Map<String,dynamic> productLike) async{
+      try {
+        final product = await productsRepository.createUpdateProduct(productLike);
+        final isProductInList = state.products.any((element) => element.id == product.id);
+
+        //Sino existe
+        if(!isProductInList){
+          state.copyWith(
+            products: [...state.products, product]
+          );
+        return true;
+        }
+
+        //Actualizar si existe
+        state = state.copyWith(
+          products: state.products.map(
+            (elememt) => (elememt.id == product.id) ? product : elememt
+          ).toList()
+        );
+        return true;
+        
+      } catch (e) {
+        return false;
+      }
+    }
+
   Future loadNextPage() async{
     if(state.isLoading || state.isLastPage) return;
 
